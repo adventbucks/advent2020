@@ -27,45 +27,6 @@ public class Day1Controller {
     @RequestMapping(value = "/day1", method = RequestMethod.POST)
     public ExpenseReport calculateExpenseReport(@RequestBody List<String> initialValues) {
 
-        logger.info("We are in day1");
-        List<Integer> values = initialValues.stream().mapToInt(s -> Integer.valueOf(s)).boxed().collect(Collectors.toList());
-        ExpenseReport report = new ExpenseReport(0, 0);
-        for (int i = 0; i < values.size(); ) {
-            int currentValue = values.remove(i).intValue();
-            logger.debug("The value is {}: ", currentValue);
-            Optional<Integer> otherValue = values.stream().parallel().filter(value -> value + currentValue == GOAL).findFirst();
-
-            if (otherValue.isPresent()) {
-                logger.info("The current value is; {} and the other value is: {}", currentValue, otherValue.get().intValue());
-                report.setSingleValue(currentValue * otherValue.get().intValue());
-            }
-        }
-
-        values = initialValues.stream().mapToInt(s -> Integer.valueOf(s)).boxed().collect(Collectors.toList());
-        for (int i = 0; i < values.size() - 1; ) {
-            int firstValue = values.remove(i).intValue();
-            //logger.info("The fist value is {}: ", firstValue);
-
-            List<Integer> remainingValues = new ArrayList<>(values);
-            for (int j = 0; j < remainingValues.size() - 1; ) {
-                int secondValue = remainingValues.remove(j);
-                //logger.info("The second value is {}: ", secondValue);
-                int multiSum = firstValue + secondValue;
-                Optional<Integer> otherValue = values.stream().parallel().filter(value -> value + multiSum == GOAL).findFirst();
-
-                if (otherValue.isPresent()) {
-                    logger.info("The current value is; {} and the first value is: {} and the last value is: {}", firstValue, secondValue, otherValue.get().intValue());
-                    report.setMultiValue(firstValue * secondValue * otherValue.get().intValue());
-                }
-            }
-
-        }
-
-        return report;
-    }
-
-    @RequestMapping(value = "/day1.1", method = RequestMethod.POST)
-    public ExpenseReport calculateExpenseReport1(@RequestBody List<String> initialValues) {
         long startTime = System.nanoTime();
         logger.info("We are in day1");
         List<Integer> values = initialValues.stream().mapToInt(s -> Integer.valueOf(s)).boxed().collect(Collectors.toList());
