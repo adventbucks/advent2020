@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 @ComponentScan({"com.advent.*"})
 @SpringBootApplication
+@EnableAutoConfiguration
 public class AdventApp2020 {
 
 
